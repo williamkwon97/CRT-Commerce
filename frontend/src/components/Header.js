@@ -1,11 +1,23 @@
 import React from 'react'
+import { Navbar, Nav , Container , Row } from 'react-bootstrap'
 
 function Header() {
     return (
-        <div>
-        <header>header</header>
-            
-        </div>
+        <header>
+            <Navbar bg="dark" variant= 'dark' expand="lg">
+                <Container>
+                    <Navbar.Brand href="/">CRT-Commerce</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="mr-auto">
+                            <Nav.Link href="/cart"><i className='fas fa-shopping-cart'>Cart</i></Nav.Link>
+                            <Nav.Link href="/lgoin"><i className='fas fa-user'>Login</i></Nav.Link>
+                        </Nav>
+                
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+        </header>
     )
 }
 
