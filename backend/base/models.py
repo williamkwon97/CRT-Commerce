@@ -12,6 +12,9 @@ class Product(models.Model):
     numReviews = models.IntegerField(null=True, blank=True, default=0)
     price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     countInStock = models.IntegerField(null=True, blank=True, default=0)
-    createdAt = models.DataTimeField(null=True, blank=True, default=0)
+    createdAt = models.DateTimeField(null=True, blank=True, default=0)
     _id = models.AutoField(primary_key=True, editable=False)
+    
+    def __str__(self):
+        return self.name
     
