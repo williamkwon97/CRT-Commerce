@@ -4,7 +4,7 @@ from .products import products
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Product
-from .serializers import ProductSerializer, UserSerializer
+from .serializers import ProductSerializer, UserSerializer , UserSerializerwithToken
 # Create your views here.
 
 
@@ -34,13 +34,12 @@ def getProducts(request):
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     
     def validate(self, attrs):
+        
         data = super().validate(attrs)
 
-        # Add custom claims
-        data['username'] = self.user.username
-        data['email'] = self.user.email
-        # ...
-
+        serializer = UserSerializerwithToken(self.user).data 
+        for k, v in serializer.items():    
+            data[k] = v 
         return data
 
 class MyTokenObtainPairView(TokenObtainPairView):
