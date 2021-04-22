@@ -14,16 +14,27 @@ from .serializers import ProductSerializer, UserSerializer, UserSerializerwithTo
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib.auth.hashers import make_password
+from rest_framework import status
 
 
-@api_view(['GET'])
-def getRoutes(request):
-    routes = [
-        "/api/products/",
-        "/api/products/create/",
-        "/api/products/upload/"
-    ]
-    return Response(routes)
+@api_view(['POST'])
+def registerUser(request):
+    data = request.data
+    try:
+
+        user = User.objects.create(
+            first_name=data['name'],
+            username=data['email'],
+            email=data['email'],
+            password=make_password(data['password'])
+        )
+
+        serializer = UserSerializerwithToken(user, many=False)
+        return Response(serializer.data)
+    except:
+        message = {'deatail': 'User with this email al al aleady registered'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -56,7 +67,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         data = super().validate(attrs)
 
-        serializer = UserSerializerwithToken(self.user).data
+        serializer = UserSerializerWithToken(self.user).data
         for k, v in serializer.items():
             data[k] = v
         return data
