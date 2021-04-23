@@ -8,18 +8,20 @@ import axios from 'axios'
 import { listProducts } from '../actions/productActions'
 
 
-function HomeScreen() {
+function HomeScreen(history) {
     const dispatch = useDispatch( )
     const productList = useSelector( state => state.productList)
     const {error, loading, products} = productList
+    let keyword = history.location.search
 
     useEffect(() => {
-        dispatch(listProducts())
-        
-        
-    }, [])
+        dispatch(listProducts(keyword))
+
+    }, [dispatch, keyword])
+
     return (
         <div>
+            
             <h1>Latest Product</h1>
             {loading ? <Loader />
                 : error ? <Message variant = 'danger '>{error}</Message>
